@@ -18,6 +18,17 @@ void circle(float cx, float cy, float r, int num_segments)
     }
     glEnd();
 }
+void circle(float x, float y, float r) {
+        float i = 0.0f;
+        
+        glBegin(GL_TRIANGLE_FAN);
+        
+        glVertex2f(x, y); // Center
+        for(i = 0.0f; i <= 360; i++)
+                glVertex2f(r*cos(M_PI * i / 180.0) + x, r*sin(M_PI * i / 180.0) + y);
+        
+        glEnd();
+}
 
 void rect(float x1, float y1, float x2, float y2)
 {
