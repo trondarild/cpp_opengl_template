@@ -49,3 +49,21 @@ void line(float x1, float y1, float x2, float y2)
         glVertex3f(x2, y2, 0.0);
     glEnd();
 }
+
+void line(float *x, float *y, int size)
+{
+    glBegin(GL_LINE_STRIP);
+    for(int i=0; i<size; i++)
+    {
+        glVertex3f(x[i], y[i], 0.0);
+    }
+    glEnd();
+}
+
+void scatter(float *x, float *y, float r, int size)
+{
+    for(int i=0; i<size; i++)
+    {
+        circle(x[i], y[i], r);
+    }
+}
