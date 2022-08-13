@@ -1,7 +1,14 @@
 #include "tat_graphics.h"
 #include <cmath> 
+#ifdef MACOSX
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
+#include <GLUT/glut.h>
+#else
+#include <GL/glu.h>
+#include <GL/gl.h>
+#include <GL/glut.h>
+#endif
 
 void circle(float cx, float cy, float r, int num_segments)
 {
