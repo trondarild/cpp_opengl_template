@@ -66,21 +66,25 @@ void rgb_hsv(float &rh, float &rs, float &rv, double r, double g, double b )
     r = r / 255.0;
     g = g / 255.0;
     b = b / 255.0;
+
+    std::cout << "r: " << r << ", g: " << g << ", b: " << b << std::endl;
  
     // h, s, v = hue, saturation, value
     double cmax = fmax(r, fmax(g, b)); // maximum of r, g, b
     double cmin = fmin(r, fmin(g, b)); // minimum of r, g, b
     double diff = cmax - cmin; // diff of cmax and cmin.
     double h = -1, s = -1;
+    std::cout << "cmax: " << cmax << ", cmin: " << cmin << ", diff: " << diff << std::endl;
  
     // if cmax and cmax are equal then h = 0
     if (cmax == cmin)
         h = 0;
  
     // if cmax equal r then compute h
-    else if (cmax == r)
+    else if (cmax == r){
         h = fmod(60 * ((g - b) / diff) + 360, 360);
- 
+        std::cout << " cmax==r, g-b: " << g-b << ", g-b/diff: " << (g-b)/diff <<  std::endl;
+    }
     // if cmax equal g then compute h
     else if (cmax == g)
         h = fmod(60 * ((b - r) / diff) + 120, 360);
@@ -93,25 +97,27 @@ void rgb_hsv(float &rh, float &rs, float &rv, double r, double g, double b )
     if (cmax == 0)
         s = 0;
     else
-        s = (diff / cmax) * 100;
+        s = (diff / cmax); // * 100;
  
     // compute v
-    double v = cmax * 100;
+    double v = cmax; // * 100;
     rh = (float)h;
     rs = (float)s;
     rv = (float)v;
-    //cout << "(" << h << ", " << s << ", " << v << ")"
-    //     << endl;
+    // std::cout << "(" << h << ", " << s << ", " << v << ")"
+    //      << std::endl;
 }
+
 
 void hsv_rgb(int &rr, int &rg, int &rb, float H, float S,float V)
 {
-    if(H>360 || H<0 || S>100 || S<0 || V>100 || V<0){
-        //std::cout<<"The givem HSV values are not in valid range"<<endl;
+    if(H>360 || H<0 || S>1 || S<0 || V>1 || V<0){
+        std::cout<<"The given HSV values are not in valid range (0..1): "
+            << "h: " << H << ", s: " << S << ", v: " << V  << std::endl;
         return;
     }
-    float s = S/100;
-    float v = V/100;
+    float s = S; // /100;
+    float v = V; // /100;
     float C = s*v;
     float X = C*(1-abs(fmod(H/60.0, 2)-1));
     float m = v-C;
@@ -134,6 +140,7 @@ void hsv_rgb(int &rr, int &rg, int &rb, float H, float S,float V)
     else{
         r = C,g = 0,b = X;
     }
+    std::cout<< "r: "<< r << ", g: " << g << ", b: " << b << ", m: " << m << "\n";
     rr = (r+m)*255;
     rg = (g+m)*255;
     rb = (b+m)*255;

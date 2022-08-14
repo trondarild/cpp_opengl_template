@@ -1,6 +1,6 @@
 #include "tat_graphics.h"
 #include "tat_utils.h"
-
+#include <iostream>
 
 #include <cmath> 
 #ifdef __APPLE__
@@ -80,13 +80,15 @@ void fill_hsv(float h, float s, float v)
 {
     // conv to rgb
     int r, g, b;
+    //std::cout<< "h: "<< h << ", s: " << s << ", v: " << v << "\n";
     hsv_rgb(r, g, b, h, s, v);
-    glColor3i(r, g, b);
+    //std::cout<< "r: "<< r << ", g: " << g << ", b: " << b << "\n";
+    glColor3ub(r, g, b);
 }
 
 void fill(int grey)
 {
-    glColor3i(grey, grey, grey);
+    glColor3ub(grey, grey, grey);
 }
 
 void drawColGrid(float x1, float y1, float dim, float margin, char* title, float** top, int sizex, int sizey){
@@ -112,7 +114,7 @@ void drawColGrid(float x1, float y1, float dim, float margin, char* title, float
   
   //glPushStyle();
   //colorMode(HSB);
-  
+  glPushMatrix();
   float y=y1;
   // float margin = 10;
   for(int j=0; j<sizey; j++){
@@ -128,6 +130,7 @@ void drawColGrid(float x1, float y1, float dim, float margin, char* title, float
     }
     y+= dim+margin;
   }
+  glPopMatrix();
 
 }
 

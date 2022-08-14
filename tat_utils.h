@@ -6,6 +6,7 @@ float* ones(int size);
 void destroy_array(float *a);
 void destroy_matrix(float **a);
 void rgb_hsv(double &rh, double &rs, double &rv, double r, double g, double b );
+void rgb2hsv(float &rh, float &rs, float &rv, double r, double g, double b );
 void hsv_rgb(int &rr, int &rg, int &rb, float H, float S,float V);
 float hue(int r, int g, int b);
 float hue(int *rgb);
