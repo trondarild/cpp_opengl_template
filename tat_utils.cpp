@@ -67,14 +67,14 @@ void rgb_hsv(float &rh, float &rs, float &rv, double r, double g, double b )
     g = g / 255.0;
     b = b / 255.0;
 
-    std::cout << "r: " << r << ", g: " << g << ", b: " << b << std::endl;
+    //std::cout << "r: " << r << ", g: " << g << ", b: " << b << std::endl;
  
     // h, s, v = hue, saturation, value
     double cmax = fmax(r, fmax(g, b)); // maximum of r, g, b
     double cmin = fmin(r, fmin(g, b)); // minimum of r, g, b
     double diff = cmax - cmin; // diff of cmax and cmin.
     double h = -1, s = -1;
-    std::cout << "cmax: " << cmax << ", cmin: " << cmin << ", diff: " << diff << std::endl;
+    //std::cout << "cmax: " << cmax << ", cmin: " << cmin << ", diff: " << diff << std::endl;
  
     // if cmax and cmax are equal then h = 0
     if (cmax == cmin)
@@ -83,7 +83,7 @@ void rgb_hsv(float &rh, float &rs, float &rv, double r, double g, double b )
     // if cmax equal r then compute h
     else if (cmax == r){
         h = fmod(60 * ((g - b) / diff) + 360, 360);
-        std::cout << " cmax==r, g-b: " << g-b << ", g-b/diff: " << (g-b)/diff <<  std::endl;
+        //std::cout << " cmax==r, g-b: " << g-b << ", g-b/diff: " << (g-b)/diff <<  std::endl;
     }
     // if cmax equal g then compute h
     else if (cmax == g)
@@ -140,7 +140,7 @@ void hsv_rgb(int &rr, int &rg, int &rb, float H, float S,float V)
     else{
         r = C,g = 0,b = X;
     }
-    std::cout<< "r: "<< r << ", g: " << g << ", b: " << b << ", m: " << m << "\n";
+    // std::cout<< "r: "<< r << ", g: " << g << ", b: " << b << ", m: " << m << "\n";
     rr = (r+m)*255;
     rg = (g+m)*255;
     rb = (b+m)*255;
