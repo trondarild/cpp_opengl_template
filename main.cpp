@@ -69,9 +69,6 @@ void draw()
 
 int main(int argc, char** argv)
 {
-    float** a = zeros(2,3);
-    print_matrix("test", a, 2, 3, 1);
-    destroy_matrix(a);
     glutInit(&argc, argv);
 
     setup();
