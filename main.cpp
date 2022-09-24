@@ -30,7 +30,7 @@ float t = 0;
 int dx = 10;
 int dy = 10;
 float sqsz = 0.05;
-SpikingPopulation pop("TestPop", dx*dy, NeuronType::eRegular_spiking, 10);
+SpikingPopulation pop("TestPop", dx*dy, NeuronType::eIntrinsically_bursting, 10);
 //SpikingPopulation pop;
 float **topology;
 void setup()
@@ -39,7 +39,7 @@ void setup()
     glutInitWindowSize(300, 300);
     glutInitWindowPosition(100, 100);
     glutCreateWindow("Test");
-    topology = random(0, 1, dx, dy);
+    topology = rand_topology(0.7, dx, dy);
     //topology[1][1] = 0.5;
     pop.setInternalTopology(topology, dx, dy);
     
@@ -87,6 +87,8 @@ void draw()
         drawColGrid(0, 0, sqsz, 0.025, "", grid, dx, dy);
                 destroy_matrix(grid);
     glPopMatrix();
+
+
 
     glFlush();
     glutSwapBuffers();

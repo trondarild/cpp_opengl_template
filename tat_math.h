@@ -10,3 +10,4 @@ float *soft_max_pw(float *r, float *a, float pw, int size);
 float random(float low, float high);
 float* random(float low, float high, int sz);
 float** random(float low, float high, int sx, int sy);
+float **rand_topology(float fill, int sx, int sy);

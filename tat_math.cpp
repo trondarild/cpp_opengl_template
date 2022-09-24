@@ -80,3 +80,16 @@ float** random(float low, float high, int sx, int sy){
     }
     return retval;
 }
+
+float **rand_topology(float fill, int sx, int sy){
+    float **retval = zeros(sx, sy);
+    for (int j = 0; j < sy; j++)
+    {
+        for (int i = 0; i < sx; i++)
+        {
+            if(random(0.f, 1.f) < fill) retval[j][i]  = 1.f;
+        }
+        
+    }
+    return retval;    
+}
