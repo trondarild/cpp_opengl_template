@@ -1,7 +1,7 @@
 #include "tat_graphics.h"
 #include "tat_utils.h"
 #include <iostream>
-#include <string>
+
 
 #include <cmath> 
 #ifdef __APPLE__

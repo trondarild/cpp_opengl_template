@@ -306,18 +306,36 @@
   //
   // spiking population
   //
-  /*
-Spiking population with connection topology
-*/
+  
 
   // constructor
+  SpikingPopulation::SpikingPopulation(){
+    int sz = 1;
+    int bufsize = 10;
+    std::string aname = "SpikingPopulation";
+    NeuronType ntype = NeuronType::eRegular_spiking;
+
+    units.reserve(sz);
+    output.reserve(sz);
+    data.reserve(sz);
+    for(int i=0; i<sz; i++){
+      units.push_back(new SpikingUnit(aname+"_"+std::to_string(i+1), ntype, 2));
+      data.push_back(new Buffer(bufsize));
+    }
+    // default internal synapse is no conn
+    internal_synapse = zeros(sz, sz);
+    name = aname;
+    
+
+  }  
+
   SpikingPopulation::SpikingPopulation(std::string aname, int sz, NeuronType ntype, int bufsize){
     units.reserve(sz);
     output.reserve(sz);
     data.reserve(sz);
     for(int i=0; i<sz; i++){
-      units.push_back(SpikingUnit(aname+"_"+std::to_string(i+1), ntype, 2));
-      data.push_back(Buffer(bufsize));
+      units.push_back(new SpikingUnit(aname+"_"+std::to_string(i+1), ntype, 2));
+      data.push_back(new Buffer(bufsize));
     }
     // default internal synapse is no conn
     internal_synapse = zeros(sz, sz);
@@ -329,12 +347,21 @@ Spiking population with connection topology
     output.reserve(sz);
     data.reserve(sz);
     for(int i=0; i<sz; i++){
-      units.push_back(SpikingUnit(aname+"_"+std::to_string(i+1), ntype, 2, noise));
-      data.push_back(Buffer(bufsize));
+      units.push_back(new SpikingUnit(aname+"_"+std::to_string(i+1), ntype, 2, noise));
+      data.push_back(new Buffer(bufsize));
     }
     // default internal synapse is no conn
     internal_synapse = zeros(sz, sz);
     name = aname;
+    
+  }
+
+  SpikingPopulation::~SpikingPopulation(){
+    for (int i = 0; i < units.size(); i++)
+    {
+        delete units[i];
+        delete data[i];
+    }
     
   }
   
@@ -342,25 +369,25 @@ Spiking population with connection topology
   std::string SpikingPopulation::getName(){ return name;}
   int SpikingPopulation::getSize(){return units.size();}
   
-  FloatList SpikingPopulation::getOutput(){
+  FloatList &SpikingPopulation::getOutput(){
     for(int i=0; i<units.size(); i++)
-      output[i] = units[i].getOutput();
+      output[i] = units[i]->getOutput();
     return output;
   }
 
-  FloatList SpikingPopulation::getNormOutput(){
+  FloatList &SpikingPopulation::getNormOutput(){
     for(int i=0; i<units.size(); i++)
-      output[i] = units[i].getNormOutput();
+      output[i] = units[i]->getNormOutput();
     return output;
   }
   
-  std::vector<Buffer> SpikingPopulation::getBuffers(){
+  std::vector<Buffer*> &SpikingPopulation::getBuffers(){
     return data;  
   }
   
   void SpikingPopulation::reset(){
     for(int i=0; i<units.size(); i++){
-      units[i].reset();
+      units[i]->reset();
     }
   }
 
@@ -373,8 +400,8 @@ Spiking population with connection topology
   // methods
   void SpikingPopulation::tick(){
     for(int i=0; i<units.size(); i++){
-      units[i].tick();
-      data[i].append(units[i].getOutput());
+      units[i]->tick();
+      data[i]->append(units[i]->getOutput());
     }
     updateConn(internal_synapse, units, units.size(), units.size());
     
@@ -382,13 +409,14 @@ Spiking population with connection topology
   
   void SpikingPopulation::setDirect(FloatList &val){
     for(int i=0; i<units.size(); i++)
-      units[i].setDirect(val[i]);
+      units[i]->setDirect(val[i]);
+    
   }
   
   void SpikingPopulation::setResetVoltage(float val){
     // will increase, decrease all 
     for(int i=0; i<units.size(); i++)
-      units[i].setResetVoltage(val);
+      units[i]->setResetVoltage(val);
   }
   
   void SpikingPopulation::excite(FloatList val, float** synapse, int sx, int sy){
@@ -396,7 +424,7 @@ Spiking population with connection topology
     for(int j=0; j<sy; ++j){
       for(int i=0; i<sx; ++i){
           if(synapse[j][i] > 0)
-            units[i].excite(synapse[j][i] * val[j]);
+            units[i]->excite(synapse[j][i] * val[j]);
       }
     }
     
@@ -412,7 +440,7 @@ Spiking population with connection topology
     for(int j=0; j<sy; ++j){
       for(int i=0; i<sx; ++i){
           if(synapse[j][i] > 0)
-            units[i].inhibit(synapse[j][i] * val[j]);
+            units[i]->inhibit(synapse[j][i] * val[j]);
       }
     }
   }
@@ -420,29 +448,29 @@ Spiking population with connection topology
   void SpikingPopulation::modulateResetVoltage(float diff){
     // will increase, decrease all 
     for(int i=0; i<units.size(); i++)
-      units[i].modulateResetVoltage(diff);
+      units[i]->modulateResetVoltage(diff);
   }
   
   void SpikingPopulation::modulateResetVoltage(FloatList &diff){
     // will increase, decrease per unit 
     for(int i=0; i<units.size(); i++)
-      units[i].modulateResetVoltage(diff[i]);
+      units[i]->modulateResetVoltage(diff[i]);
   }
 
   void SpikingPopulation::randomize(){
     for(int i=0; i<units.size(); i++)
-      units[i].randomize();
+      units[i]->randomize();
   }
   
   // privates
-  void SpikingPopulation::updateConn(float** matrix, std::vector<SpikingUnit> &units, int sx, int sy){
+  void SpikingPopulation::updateConn(float** matrix, std::vector<SpikingUnit*> &units, int sx, int sy){
 
     for(int j=0; j<sy; ++j){
       for(int i=0; i<sx; ++i){
         if(matrix[j][i] > 0)
-          units[i].excite(units[j].getOutput());//, units[j].getPhase());
+          units[i]->excite(units[j]->getOutput());//, units[j].getPhase());
         else if(matrix[j][i] < 0)
-          units[i].inhibit(units[j].getOutput());//, units[j].getPhase());
+          units[i]->inhibit(units[j]->getOutput());//, units[j].getPhase());
       }
     }
   }

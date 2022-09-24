@@ -10,7 +10,7 @@ enum NeuronType {  eIntrinsically_bursting,eChattering,eFast_spiking,
 
 
 class SpikingUnit {
-public:
+
     int population_size=1;
   bool mdebug = false;
   float max_threshold = 65.0;
@@ -29,6 +29,7 @@ public:
   float noisefact = 0;
   
   //float[] vlt_buffer;
+  public:
   // constructor
   SpikingUnit();
   SpikingUnit(std::string aname, NeuronType a_ntype, int a_substeps);
@@ -87,22 +88,25 @@ Spiking population with connection topology
 
 class SpikingPopulation{
  
-  std::vector<SpikingUnit> units;
-  std::vector<Buffer> data;
+  std::vector<SpikingUnit*> units;
+  std::vector<Buffer*> data;
   FloatList output;
   float ** internal_synapse;
   std::string name;
+  
+  public:
   // constructor
+  SpikingPopulation();
   SpikingPopulation(std::string aname, int sz, NeuronType ntype, int bufsize);
   SpikingPopulation(std::string aname, int sz, NeuronType ntype, int bufsize, float noise);
-  
+  ~SpikingPopulation();
   
   // accessors
   std::string getName();
   int getSize();
-  FloatList getOutput();
-  FloatList getNormOutput();
-  std::vector<Buffer> getBuffers();
+  FloatList &getOutput();
+  FloatList &getNormOutput();
+  std::vector<Buffer*> &getBuffers();
   void reset();
   void setInternalTopology(float** top);
     
@@ -119,5 +123,5 @@ class SpikingPopulation{
   
   // privates
   private:
-  void updateConn(float** matrix, std::vector<SpikingUnit> &units, int sx, int sy);
+  void updateConn(float** matrix, std::vector<SpikingUnit*> &units, int sx, int sy);
 };

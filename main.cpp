@@ -27,7 +27,8 @@
 
 
 float t = 0;
-SpikingUnit unit;
+SpikingPopulation pop("TestPop", 2, NeuronType::eRegular_spiking, 10);
+//SpikingPopulation pop;
 void setup()
 {
     glutInitDisplayMode(GLUT_DOUBLE);
@@ -40,8 +41,13 @@ void setup()
 void update()
 {
     t += 1;
-    unit.setDirect(50.f);
-    unit.tick();
+    
+    FloatList dir;
+    dir.push_back(40.f);
+    dir.push_back(20.f);
+    
+    pop.setDirect(dir);
+    pop.tick();
     glutPostRedisplay();
 }
 
@@ -59,8 +65,9 @@ void draw()
         //glColor3i(200, 200, 200);
         //square(0, 0, 0.25);
         float **top = create_matrix(2, 1);
-        top[0][0] = map(unit.getOutput(), -80.f, 80, 0, 1);
-        top[0][1] = 0.7;
+        
+        top[0][0] = map(pop.getOutput()[0], -80.f, 80, 0, 1);
+        top[0][1] = map(pop.getOutput()[1], -80.f, 80, 0, 1);;
 
         drawColGrid(0, 0, 0.1, 0.025, "", top, 2, 1);
         destroy_matrix(top);
@@ -73,11 +80,11 @@ void draw()
 int main(int argc, char** argv)
 {
     glutInit(&argc, argv);
-
+    
     setup();
     glutDisplayFunc(draw);
     glutIdleFunc(update);
-
+    
     glutMainLoop();    
     return 0;
 }
