@@ -57,7 +57,7 @@ soft_max_pw(float *r, float *a, float pw, int size)
 }
 
 float random(float low, float high){
-    return low + (high-low)*random();
+    return low + (high-low)*((float)rand()/RAND_MAX);
 }
 
 float* random(float low, float high, int sz){

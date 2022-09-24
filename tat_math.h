@@ -11,3 +11,5 @@ float random(float low, float high);
 float* random(float low, float high, int sz);
 float** random(float low, float high, int sx, int sy);
 float **rand_topology(float fill, int sx, int sy);
+float floor(float val, float floor);
+float ceiling(float val, float ceiling);

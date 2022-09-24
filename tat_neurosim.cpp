@@ -393,7 +393,7 @@
 
   
   void SpikingPopulation::setInternalTopology(float** top, int sx, int sy){
-    assert(sx*sy == units.size());
+    assert(sx <= units.size() && sy <= units.size());
     syn_x = sx;
     syn_y = sy;
     internal_synapse = top;  
