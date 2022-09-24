@@ -93,3 +93,16 @@ float **rand_topology(float fill, int sx, int sy){
     }
     return retval;    
 }
+
+float **apply_rand_topology(float** matrix, float fill, int sx, int sy){
+    reset_array(matrix[0], sx*sy);
+    for (int j = 0; j < sy; j++)
+    {
+        for (int i = 0; i < sx; i++)
+        {
+            matrix[j][i] = random(0, 1) < fill ? 1.f : 0.f;
+        }
+    }
+    return matrix;
+    
+}

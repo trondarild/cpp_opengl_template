@@ -117,8 +117,8 @@ class SpikingPopulation{
   void tick();
   void setDirect(FloatList &val);
   void setResetVoltage(float val);
-  void excite(FloatList val, float** synapse, int sx, int sy);
-  void inhibit(FloatList val, float** synapse, int sx, int sy);
+  void excite(FloatList &val, float** synapse, int sx, int sy);
+  void inhibit(FloatList &val, float** synapse, int sx, int sy);
   void modulateResetVoltage(float diff);
   void modulateResetVoltage(FloatList &diff);
   void randomize();

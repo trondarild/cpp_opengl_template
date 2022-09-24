@@ -421,7 +421,7 @@
       units[i]->setResetVoltage(val);
   }
   
-  void SpikingPopulation::excite(FloatList val, float** synapse, int sx, int sy){
+  void SpikingPopulation::excite(FloatList &val, float** synapse, int sx, int sy){
     // will throw array out of bounds if not matching
     for(int j=0; j<sy; ++j){
       for(int i=0; i<sx; ++i){
@@ -432,7 +432,7 @@
     
   }
   
-  void SpikingPopulation::inhibit(FloatList val, float** synapse, int sx, int sy){
+  void SpikingPopulation::inhibit(FloatList &val, float** synapse, int sx, int sy){
     /**
     val - array of unit outputs (any size)
     synapse - matrix of synapse mappings where 
@@ -443,8 +443,10 @@
       for(int i=0; i<sx; ++i){
           if(synapse[j][i] > 0)
             units[i]->inhibit(synapse[j][i] * val[j]);
+          
       }
     }
+    
   }
   
   void SpikingPopulation::modulateResetVoltage(float diff){
