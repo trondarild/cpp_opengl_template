@@ -1,6 +1,7 @@
 #include "tat_graphics.h"
 #include "tat_utils.h"
 #include <iostream>
+#include <string>
 
 #include <cmath> 
 #ifdef __APPLE__
@@ -91,7 +92,7 @@ void fill(int grey)
     glColor3ub(grey, grey, grey);
 }
 
-void drawColGrid(float x1, float y1, float dim, float margin, char* title, float** top, int sizex, int sizey){
+void drawColGrid(float x1, float y1, float dim, float margin, std::string title, float** top, int sizex, int sizey){
   /**
   x1 - topleft corner x
   y1 - topleft corner y

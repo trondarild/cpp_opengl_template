@@ -16,11 +16,7 @@ float sum(float *a, int size){
     return retval;
 }
 
-void print_array(float *a, int size) {
-    for (int i=0; i < size; ++i)
-        cout << a[i] << ", ";
-    cout << "\n";
-}
+
 
 float *
 soft_max_exp(float *r, float *a, int size)
@@ -57,4 +53,8 @@ soft_max_pw(float *r, float *a, float pw, int size)
     else
         reset_array(r, size);
     return r;
+}
+
+float random(float low, float high){
+    return low + (high-low)*random();
 }

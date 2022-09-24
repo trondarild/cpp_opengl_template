@@ -8,7 +8,7 @@
 #include "tat_math.h"
 #include "tat_utils.h"
 #include "tat_graphics.h"
-
+#include "tat_neurosim.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -27,6 +27,7 @@
 
 
 float t = 0;
+SpikingUnit unit;
 void setup()
 {
     glutInitDisplayMode(GLUT_DOUBLE);
@@ -39,6 +40,8 @@ void setup()
 void update()
 {
     t += 1;
+    unit.setDirect(50.f);
+    unit.tick();
     glutPostRedisplay();
 }
 
@@ -51,12 +54,12 @@ void draw()
 
     glLineWidth(4.f);
     glPushMatrix();
-        char *title = "hello";
+        //char *title = "hello";
         
         //glColor3i(200, 200, 200);
         //square(0, 0, 0.25);
         float **top = create_matrix(2, 1);
-        top[0][0] = 0.6;
+        top[0][0] = map(unit.getOutput(), -80.f, 80, 0, 1);
         top[0][1] = 0.7;
 
         drawColGrid(0, 0, 0.1, 0.025, "", top, 2, 1);

@@ -208,3 +208,27 @@ print_matrix(const char * name, float ** m, int sizex, int sizey, int decimals)
         printf("\n");
     //}
 }
+
+float map(float a, float from_min, float from_max, float to_min, float to_max){
+    float from = (a - from_min)/(from_max - from_min);
+    return from * (to_max - to_min) + to_min;
+}
+
+void print_array(float *a, int size) {
+    for (int i=0; i < size; ++i)
+        std::cout << a[i] << ", ";
+    std::cout << "\n";
+}
+
+void print_array(std::string s, FloatList *l){
+    std::cout << s;
+    print_array(l->data(), l->size());
+}
+
+void println(){
+    std::cout << "\n";
+}
+
+void println(std::string s){
+    std::cout << s << "\n";
+}
