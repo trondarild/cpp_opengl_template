@@ -27,14 +27,21 @@
 
 
 float t = 0;
-SpikingPopulation pop("TestPop", 2, NeuronType::eRegular_spiking, 10);
+int dx = 10;
+int dy = 10;
+float sqsz = 0.05;
+SpikingPopulation pop("TestPop", dx*dy, NeuronType::eRegular_spiking, 10);
 //SpikingPopulation pop;
+float **topology;
 void setup()
 {
     glutInitDisplayMode(GLUT_DOUBLE);
     glutInitWindowSize(300, 300);
     glutInitWindowPosition(100, 100);
     glutCreateWindow("Test");
+    topology = random(0, 1, dx, dy);
+    //topology[1][1] = 0.5;
+    pop.setInternalTopology(topology, dx, dy);
     
 }
 
@@ -45,7 +52,6 @@ void update()
     FloatList dir;
     dir.push_back(40.f);
     dir.push_back(20.f);
-    
     pop.setDirect(dir);
     pop.tick();
     glutPostRedisplay();
@@ -64,13 +70,22 @@ void draw()
         
         //glColor3i(200, 200, 200);
         //square(0, 0, 0.25);
-        float **top = create_matrix(2, 1);
-        
-        top[0][0] = map(pop.getOutput()[0], -80.f, 80, 0, 1);
-        top[0][1] = map(pop.getOutput()[1], -80.f, 80, 0, 1);;
+        float **grid = zeros(dx, dy);
+        int count = 0;
+                for (int j = 0; j < dy; j++)
+        {
+            for (int i = 0; i < dx; i++)
+            {
+                grid[j][i] = map(pop.getOutput()[count++], -100.f, 80, 0, 1);
+            }
+            
+        }
+                
+        //grid[0][0] = map(pop.getOutput()[0], -80.f, 80, 0, 1);
+        //grid[0][1] = map(pop.getOutput()[1], -80.f, 80, 0, 1);;
 
-        drawColGrid(0, 0, 0.1, 0.025, "", top, 2, 1);
-        destroy_matrix(top);
+        drawColGrid(0, 0, sqsz, 0.025, "", grid, dx, dy);
+                destroy_matrix(grid);
     glPopMatrix();
 
     glFlush();

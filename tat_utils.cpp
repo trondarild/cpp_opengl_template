@@ -112,8 +112,8 @@ void rgb_hsv(float &rh, float &rs, float &rv, double r, double g, double b )
 void hsv_rgb(int &rr, int &rg, int &rb, float H, float S,float V)
 {
     if(H>360 || H<0 || S>1 || S<0 || V>1 || V<0){
-        std::cout<<"The given HSV values are not in valid range (0..1): "
-            << "h: " << H << ", s: " << S << ", v: " << V  << std::endl;
+        //std::cout<<"The given HSV values are not in valid range (0..1): "
+        //    << "h: " << H << ", s: " << S << ", v: " << V  << std::endl;
         return;
     }
     float s = S; // /100;

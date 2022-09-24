@@ -2,6 +2,7 @@
 #pragma once
 
 typedef std::vector<float> FloatList;
+typedef std::vector<FloatList> FloatMatrix;
 
 float *create_array(int size);
 float **create_matrix(int sizex, int sizey);
@@ -23,6 +24,7 @@ void println(std::string s);
 void println();
 void print_array(std::string s, FloatList *l);
 void print_array(float *a, int size);
+void to_FloatMatrix(FloatMatrix &out, float** m, int sx, int sy);
 
 class Buffer{
   public:

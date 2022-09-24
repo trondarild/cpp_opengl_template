@@ -91,7 +91,9 @@ class SpikingPopulation{
   std::vector<SpikingUnit*> units;
   std::vector<Buffer*> data;
   FloatList output;
-  float ** internal_synapse;
+  float** internal_synapse;
+  int syn_x;
+  int syn_y;
   std::string name;
   
   public:
@@ -108,7 +110,7 @@ class SpikingPopulation{
   FloatList &getNormOutput();
   std::vector<Buffer*> &getBuffers();
   void reset();
-  void setInternalTopology(float** top);
+  void setInternalTopology(float** top, int sx, int sy);
     
   
   // methods

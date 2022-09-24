@@ -392,7 +392,10 @@
   }
 
   
-  void SpikingPopulation::setInternalTopology(float** top){
+  void SpikingPopulation::setInternalTopology(float** top, int sx, int sy){
+    assert(sx*sy == units.size());
+    syn_x = sx;
+    syn_y = sy;
     internal_synapse = top;  
   }
     
@@ -403,8 +406,7 @@
       units[i]->tick();
       data[i]->append(units[i]->getOutput());
     }
-    updateConn(internal_synapse, units, units.size(), units.size());
-    
+    updateConn(internal_synapse, units, syn_x, syn_y);   
   }
   
   void SpikingPopulation::setDirect(FloatList &val){
