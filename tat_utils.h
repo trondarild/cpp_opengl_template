@@ -1,5 +1,5 @@
 #include <vector>
-
+#pragma once
 
 typedef std::vector<float> FloatList;
 
@@ -23,3 +23,17 @@ void println(std::string s);
 void println();
 void print_array(std::string s, FloatList *l);
 void print_array(float *a, int size);
+
+class Buffer{
+  public:
+  /** Simple buffer class
+   */
+  FloatList data; 
+
+  Buffer(int sz);
+  FloatList array();
+  float head();
+  float get(int ix);
+  void append(float val);
+};
+

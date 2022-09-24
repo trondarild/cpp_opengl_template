@@ -31,10 +31,8 @@ public:
   //float[] vlt_buffer;
   // constructor
   SpikingUnit();
-  SpikingUnit(std::string aname, NeuronType a_ntype,
-              int a_substeps);
-  //SpikingUnit(std:string aname, NeuronType a_ntype,
-  //            int a_substeps, float noise);
+  SpikingUnit(std::string aname, NeuronType a_ntype, int a_substeps);
+  SpikingUnit(std::string aname, NeuronType a_ntype, int a_substeps, float noise);
   ~SpikingUnit();
   
   // accessors
@@ -81,4 +79,45 @@ public:
   
   
   void debug();
+};
+
+/*
+Spiking population with connection topology
+*/
+
+class SpikingPopulation{
+ 
+  std::vector<SpikingUnit> units;
+  std::vector<Buffer> data;
+  FloatList output;
+  float ** internal_synapse;
+  std::string name;
+  // constructor
+  SpikingPopulation(std::string aname, int sz, NeuronType ntype, int bufsize);
+  SpikingPopulation(std::string aname, int sz, NeuronType ntype, int bufsize, float noise);
+  
+  
+  // accessors
+  std::string getName();
+  int getSize();
+  FloatList getOutput();
+  FloatList getNormOutput();
+  std::vector<Buffer> getBuffers();
+  void reset();
+  void setInternalTopology(float** top);
+    
+  
+  // methods
+  void tick();
+  void setDirect(FloatList &val);
+  void setResetVoltage(float val);
+  void excite(FloatList val, float** synapse, int sx, int sy);
+  void inhibit(FloatList val, float** synapse, int sx, int sy);
+  void modulateResetVoltage(float diff);
+  void modulateResetVoltage(FloatList &diff);
+  void randomize();
+  
+  // privates
+  private:
+  void updateConn(float** matrix, std::vector<SpikingUnit> &units, int sx, int sy);
 };

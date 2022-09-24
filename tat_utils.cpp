@@ -232,3 +232,32 @@ void println(){
 void println(std::string s){
     std::cout << s << "\n";
 }
+
+//
+// Buffer
+//
+Buffer::Buffer(int sz){
+    data.reserve(sz);
+    for(int i=0; i<sz; i++)
+        data.push_back(0);
+}
+
+FloatList Buffer::array(){
+    return data;
+}
+
+float Buffer::head(){
+    return data.at(0);
+}
+
+float Buffer::get(int ix){
+    return data.at(ix);
+}
+
+void Buffer::append(float val){
+    data.push_back(val);
+    data.erase (data.begin());
+}
+
+
+

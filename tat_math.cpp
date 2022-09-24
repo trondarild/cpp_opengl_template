@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath> 
 #include "tat_math.h"
+#include "tat_utils.h"
 using namespace std;
 
 float* reset_array(float *r, int size) {
@@ -57,4 +58,25 @@ soft_max_pw(float *r, float *a, float pw, int size)
 
 float random(float low, float high){
     return low + (high-low)*random();
+}
+
+float* random(float low, float high, int sz){
+    float *retval = zeros(sz);
+    for (int i = 0; i < sz; i++)
+    {
+        retval[i] = random(low, high);
+    }
+    return retval;
+    
+}
+float** random(float low, float high, int sx, int sy){
+    float **retval = zeros(sx, sy);
+    for (int j = 0; j < sy; j++)
+    {
+        for (int i = 0; i < sx; i++)
+        {
+            retval[j][i] = random(low, high);
+        }
+    }
+    return retval;
 }

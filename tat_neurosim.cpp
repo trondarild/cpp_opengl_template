@@ -28,9 +28,8 @@
    
   }
   
-  /*
-  SpikingUnit::SpikingUnit(std::string aname, NeuronType a_ntype,
-              int a_substeps, float noise){
+  
+  SpikingUnit::SpikingUnit(std::string aname, NeuronType a_ntype, int a_substeps, float noise){
     name = aname;            
     substeps = a_substeps;
     e_synapse = new FloatList();
@@ -39,9 +38,8 @@
     // vlt_buffer = new float[a_buffersz];
     setNeuronType(a_ntype);
     randomize();
-   
   }
-  */
+  
   SpikingUnit::~SpikingUnit() {
     e_synapse->clear();
     i_synapse->clear();
@@ -291,16 +289,160 @@
   }
   
   void SpikingUnit::debug(){
-  println();
-  println("-- " + name + " --");
-  println ("tau: " + std::to_string(tau_recovery));
-   println("coupling: " + std::to_string(coupling));
-   println("reset_voltage: " + std::to_string(reset_voltage));
-   println("reset_recovery: " + std::to_string(reset_recovery));
-   println("dir_current: " + std::to_string(dir_current));
-   println("voltage: " + std::to_string(voltage));
-   println("recovery: " + std::to_string(recovery));
-  print_array( "exc synapse: ", e_synapse);
-  print_array( "inh synapse: ",  i_synapse);
+    println();
+    println("-- " + name + " --");
+    println ("tau: " + std::to_string(tau_recovery));
+    println("coupling: " + std::to_string(coupling));
+    println("reset_voltage: " + std::to_string(reset_voltage));
+    println("reset_recovery: " + std::to_string(reset_recovery));
+    println("dir_current: " + std::to_string(dir_current));
+    println("voltage: " + std::to_string(voltage));
+    println("recovery: " + std::to_string(recovery));
+    print_array( "exc synapse: ", e_synapse);
+    print_array( "inh synapse: ",  i_synapse);
     
+  }
+
+  //
+  // spiking population
+  //
+  /*
+Spiking population with connection topology
+*/
+
+  // constructor
+  SpikingPopulation::SpikingPopulation(std::string aname, int sz, NeuronType ntype, int bufsize){
+    units.reserve(sz);
+    output.reserve(sz);
+    data.reserve(sz);
+    for(int i=0; i<sz; i++){
+      units.push_back(SpikingUnit(aname+"_"+std::to_string(i+1), ntype, 2));
+      data.push_back(Buffer(bufsize));
+    }
+    // default internal synapse is no conn
+    internal_synapse = zeros(sz, sz);
+    name = aname;
+  }
+
+  SpikingPopulation::SpikingPopulation(std::string aname, int sz, NeuronType ntype, int bufsize, float noise){
+    units.reserve(sz); //
+    output.reserve(sz);
+    data.reserve(sz);
+    for(int i=0; i<sz; i++){
+      units.push_back(SpikingUnit(aname+"_"+std::to_string(i+1), ntype, 2, noise));
+      data.push_back(Buffer(bufsize));
+    }
+    // default internal synapse is no conn
+    internal_synapse = zeros(sz, sz);
+    name = aname;
+    
+  }
+  
+  // accessors
+  std::string SpikingPopulation::getName(){ return name;}
+  int SpikingPopulation::getSize(){return units.size();}
+  
+  FloatList SpikingPopulation::getOutput(){
+    for(int i=0; i<units.size(); i++)
+      output[i] = units[i].getOutput();
+    return output;
+  }
+
+  FloatList SpikingPopulation::getNormOutput(){
+    for(int i=0; i<units.size(); i++)
+      output[i] = units[i].getNormOutput();
+    return output;
+  }
+  
+  std::vector<Buffer> SpikingPopulation::getBuffers(){
+    return data;  
+  }
+  
+  void SpikingPopulation::reset(){
+    for(int i=0; i<units.size(); i++){
+      units[i].reset();
+    }
+  }
+
+  
+  void SpikingPopulation::setInternalTopology(float** top){
+    internal_synapse = top;  
+  }
+    
+  
+  // methods
+  void SpikingPopulation::tick(){
+    for(int i=0; i<units.size(); i++){
+      units[i].tick();
+      data[i].append(units[i].getOutput());
+    }
+    updateConn(internal_synapse, units, units.size(), units.size());
+    
+  }
+  
+  void SpikingPopulation::setDirect(FloatList &val){
+    for(int i=0; i<units.size(); i++)
+      units[i].setDirect(val[i]);
+  }
+  
+  void SpikingPopulation::setResetVoltage(float val){
+    // will increase, decrease all 
+    for(int i=0; i<units.size(); i++)
+      units[i].setResetVoltage(val);
+  }
+  
+  void SpikingPopulation::excite(FloatList val, float** synapse, int sx, int sy){
+    // will throw array out of bounds if not matching
+    for(int j=0; j<sy; ++j){
+      for(int i=0; i<sx; ++i){
+          if(synapse[j][i] > 0)
+            units[i].excite(synapse[j][i] * val[j]);
+      }
+    }
+    
+  }
+  
+  void SpikingPopulation::inhibit(FloatList val, float** synapse, int sx, int sy){
+    /**
+    val - array of unit outputs (any size)
+    synapse - matrix of synapse mappings where 
+      rows=sizeof(val), cols=sizeof(this population)
+    */
+    // will throw array out of bounds if not matching
+    for(int j=0; j<sy; ++j){
+      for(int i=0; i<sx; ++i){
+          if(synapse[j][i] > 0)
+            units[i].inhibit(synapse[j][i] * val[j]);
+      }
+    }
+  }
+  
+  void SpikingPopulation::modulateResetVoltage(float diff){
+    // will increase, decrease all 
+    for(int i=0; i<units.size(); i++)
+      units[i].modulateResetVoltage(diff);
+  }
+  
+  void SpikingPopulation::modulateResetVoltage(FloatList &diff){
+    // will increase, decrease per unit 
+    for(int i=0; i<units.size(); i++)
+      units[i].modulateResetVoltage(diff[i]);
+  }
+
+  void SpikingPopulation::randomize(){
+    for(int i=0; i<units.size(); i++)
+      units[i].randomize();
+  }
+  
+  // privates
+  void SpikingPopulation::updateConn(float** matrix, std::vector<SpikingUnit> &units, int sx, int sy){
+
+    for(int j=0; j<sy; ++j){
+      for(int i=0; i<sx; ++i){
+        if(matrix[j][i] > 0)
+          units[i].excite(units[j].getOutput());//, units[j].getPhase());
+        else if(matrix[j][i] < 0)
+          units[i].inhibit(units[j].getOutput());//, units[j].getPhase());
+      }
+    }
   }
