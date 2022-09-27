@@ -4,6 +4,7 @@
 typedef std::vector<float> FloatList;
 typedef std::vector<FloatList> FloatMatrix;
 
+float *copy_array(float * r, float * a, int size);
 float *create_array(int size);
 float **create_matrix(int sizex, int sizey);
 float* zeros(int size);

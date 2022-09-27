@@ -1,6 +1,13 @@
 #include "tat_utils.h"
 #include <iostream>
 #include <cmath>
+
+float *
+copy_array(float * r, float * a, int size)
+{
+    return (float *)memcpy(r, a, size*sizeof(float));
+}
+
 float* create_array(int size)
 {
     return new float[size];
