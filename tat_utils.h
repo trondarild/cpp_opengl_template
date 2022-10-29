@@ -1,4 +1,5 @@
 #include <vector>
+#include <string>
 #pragma once
 
 typedef std::vector<float> FloatList;

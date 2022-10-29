@@ -2,6 +2,13 @@
 #include <iostream>
 #include <cmath>
 
+void *memcpy(void *dest, const void *src, size_t n){
+	char *csrc = (char *) src;
+	char *cdest = (char *) dest;
+	for(int i=0; i<n; i++)
+		cdest[i] = csrc[i];
+}
+
 float *
 copy_array(float * r, float * a, int size)
 {
