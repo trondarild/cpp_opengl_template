@@ -9,6 +9,7 @@
 #include "tat_utils.h"
 #include "tat_graphics.h"
 #include "tat_neurosim.h"
+#include "alphabet.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -44,6 +45,7 @@ void setup()
     glutInitWindowSize(winx, winy);
     glutInitWindowPosition(100, 100);
     glutCreateWindow("Test");
+    init_alphabet();
 
     //topology = rand_topology(0.075, dx*dy, dx*dy);
     //inh_topology = rand_topology(0.35, dx*dy, inh_y);
@@ -84,27 +86,11 @@ void draw()
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_LINE_SMOOTH);
 
-    glLineWidth(4.f);
+    glLineWidth(1.f);
     glPushMatrix();
-        float data[2];
-        data[0] = 0.2;
-        data[1] = 0.3;
-        float clr[3] = {0,0,0};
-        clr[0] = 0.7;
-        clr[1] = 0.2;
-        clr[2] = 0.7;
-
-        glScalef(0.8, 0.8, 1.f);
-	    barchart_array(
-            data,
-        2,
-        0, 
-        0, 
-        0.5, 
-        0.5, 
-        clr,  
-        0.5f);
-
+        glTranslatef(-0.8, 0, 0);
+        glScalef(0.041, 0.051, 1.f);
+        draw_string("trond arild tjostheim");
     	
     glPopMatrix();
 
