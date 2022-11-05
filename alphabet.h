@@ -28,3 +28,5 @@ void draw_w();
 void draw_x();
 void draw_y();
 void draw_z();
+void draw_space();
+void draw_underscore();

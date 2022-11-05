@@ -15,7 +15,7 @@
 #endif
 
 float mx = 0.5;
-float kern = 2*mx + 0.3;
+float kern = 3*mx;
 // every function pointer will be stored as this type
 typedef void (*voidFunctionType)(void); 
 std::map<char, voidFunctionType> alphabet_map;
@@ -47,6 +47,8 @@ void init_alphabet(){
     alphabet_map.insert(std::make_pair('x', (voidFunctionType) draw_x));
     alphabet_map.insert(std::make_pair('y', (voidFunctionType) draw_y));
     alphabet_map.insert(std::make_pair('z', (voidFunctionType) draw_z));
+    alphabet_map.insert(std::make_pair(' ', (voidFunctionType) draw_space));
+    alphabet_map.insert(std::make_pair('_', (voidFunctionType) draw_underscore));
 }
 
 void draw_string(std::string s){
@@ -237,10 +239,10 @@ void draw_k(){
     float v[][2] = {
                 {0, mx},
                 {0, -mx},
-                {mx*3.f/5, mx*2.f/5},
+                {mx, mx*2.f/5},
                 {0, -mx*1.f/5},
                 {0, -mx*1.f/5},
-                {mx*3.f/5, -mx},
+                {mx, -mx},
                 };
     glBegin(GL_LINES);
         for(int j=0; j<numvtx; j++){
@@ -253,12 +255,12 @@ void draw_k(){
 void draw_l(){
     int numvtx = 6;
     float v[][2] = {
-                {-mx/2, mx},
+                {-mx, mx},
                 {0, mx},
                 {0, mx},
                 {0, -mx},
                 {0, -mx},
-                {mx/2, -mx},
+                {mx, -mx},
                 };
     glBegin(GL_LINES);
         for(int j=0; j<numvtx; j++){
@@ -387,11 +389,11 @@ void draw_t(){
     int numvtx = 6;
     float v[][2] = {
                 {-mx/2, mx*3/5},
-                {mx/2, mx*3/5},
+                {mx, mx*3/5},
                 {0, mx},
                 {0, -mx},
                 {0, -mx},
-                {mx/2, -mx},
+                {mx, -mx},
                 };
     glBegin(GL_LINES);
         for(int j=0; j<numvtx; j++){
@@ -402,7 +404,7 @@ void draw_t(){
 }
 
 void draw_u(){
-    glPopMatrix();
+    glPushMatrix();
     glRotatef(180.f, 1, 0, 0);
     draw_n();
     glPopMatrix();
@@ -473,6 +475,22 @@ void draw_z(){
                 {mx, mx},
                 {mx, mx},
                 {-mx, -mx},
+                {-mx, -mx},
+                {mx, -mx},
+                };
+    glBegin(GL_LINES);
+        for(int j=0; j<numvtx; j++){
+            glVertex3f(v[j][0], v[j][1], 0.0);
+        }
+        
+    glEnd();
+}
+
+void draw_space(){};
+
+void draw_underscore(){
+    int numvtx = 2;
+    float v[][2] = {
                 {-mx, -mx},
                 {mx, -mx},
                 };
