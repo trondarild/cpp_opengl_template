@@ -1,6 +1,6 @@
-SOURCES=main.cpp tat_graphics.cpp tat_math.cpp tat_utils.cpp tat_neurosim.cpp
+SOURCES=main.cpp tat_graphics.cpp tat_math.cpp tat_utils.cpp tat_neurosim.cpp alphabet.cpp
 mac:	#main.cpp tat_math.cpp tat_graphics.cpp
-	g++ $(SOURCES) -o test -L/System/Library/Frameworks -framework GLUT -framework OpenGL -Wno-deprecated
+	g++ $(SOURCES) -o test -L/System/Library/Frameworks -framework GLUT -framework OpenGL -Wno-deprecated -std=c++11
 
 macdbg:	# main.cpp tat_math.cpp
 	g++ -g $(SOURCES) -o test -L/System/Library/Frameworks -framework GLUT -framework OpenGL -Wno-deprecated
