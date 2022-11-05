@@ -1,5 +1,30 @@
+#include <string>
+
+void init_alphabet();
+void draw_string(std::string s);
 void draw_a();
 void draw_b();
 void draw_c();
 void draw_d();
 void draw_e();
+void draw_f();
+void draw_g();
+void draw_h();
+void draw_i();
+void draw_j();
+void draw_k();
+void draw_l();
+void draw_m();
+void draw_n();
+void draw_o();
+void draw_p();
+void draw_q();
+void draw_r();
+void draw_s();
+void draw_t();
+void draw_u();
+void draw_v();
+void draw_w();
+void draw_x();
+void draw_y();
+void draw_z();
