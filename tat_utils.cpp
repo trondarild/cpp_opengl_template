@@ -7,6 +7,7 @@ void *memcpy(void *dest, const void *src, size_t n){
 	char *cdest = (char *) dest;
 	for(int i=0; i<n; i++)
 		cdest[i] = csrc[i];
+    return dest;
 }
 
 float *
