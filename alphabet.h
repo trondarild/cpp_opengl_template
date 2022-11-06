@@ -40,3 +40,4 @@ void draw_6();
 void draw_7();
 void draw_8();
 void draw_9();
+void draw_period();

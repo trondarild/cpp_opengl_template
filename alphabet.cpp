@@ -59,6 +59,7 @@ void init_alphabet(){
     alphabet_map.insert(std::make_pair('7', (voidFunctionType) draw_7));
     alphabet_map.insert(std::make_pair('8', (voidFunctionType) draw_8));
     alphabet_map.insert(std::make_pair('9', (voidFunctionType) draw_9));
+    alphabet_map.insert(std::make_pair('.', (voidFunctionType) draw_period));
 }
 
 void draw_string(std::string s){
@@ -628,4 +629,11 @@ void draw_9(){
     glRotatef(180, 0, 0, 1);
     draw_b();
     glPopMatrix();
+}
+
+void draw_period(){
+    glPushAttrib(GL_COLOR_BUFFER_BIT);
+    glColor3ub(255,255,255);
+    glRectf(-mx/4, -mx*3/4, mx/4, -mx);
+    glPopAttrib();
 }
