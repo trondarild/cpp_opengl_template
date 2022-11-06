@@ -49,6 +49,16 @@ void init_alphabet(){
     alphabet_map.insert(std::make_pair('z', (voidFunctionType) draw_z));
     alphabet_map.insert(std::make_pair(' ', (voidFunctionType) draw_space));
     alphabet_map.insert(std::make_pair('_', (voidFunctionType) draw_underscore));
+    alphabet_map.insert(std::make_pair('0', (voidFunctionType) draw_0));
+    alphabet_map.insert(std::make_pair('1', (voidFunctionType) draw_1));
+    alphabet_map.insert(std::make_pair('2', (voidFunctionType) draw_2));
+    alphabet_map.insert(std::make_pair('3', (voidFunctionType) draw_3));
+    alphabet_map.insert(std::make_pair('4', (voidFunctionType) draw_4));
+    alphabet_map.insert(std::make_pair('5', (voidFunctionType) draw_5));
+    alphabet_map.insert(std::make_pair('6', (voidFunctionType) draw_6));
+    alphabet_map.insert(std::make_pair('7', (voidFunctionType) draw_7));
+    alphabet_map.insert(std::make_pair('8', (voidFunctionType) draw_8));
+    alphabet_map.insert(std::make_pair('9', (voidFunctionType) draw_9));
 }
 
 void draw_string(std::string s){
@@ -500,4 +510,122 @@ void draw_underscore(){
         }
         
     glEnd();
+}
+
+void draw_0(){
+int numvtx = 10;
+    float v[][2] = {
+                {-mx, mx},
+                {mx, mx},
+                {-mx, mx},
+                {-mx, -mx},
+                {mx, mx},
+                {mx, -mx},
+                {-mx, -mx},
+                {mx, -mx},
+                {0, mx/4},
+                {0, -mx/4},
+                };
+    glBegin(GL_LINES);
+        for(int j=0; j<numvtx; j++){
+            glVertex3f(v[j][0], v[j][1], 0.0);
+        }
+        
+    glEnd();    
+}
+
+void draw_1(){
+    int numvtx = 6;
+    float v[][2] = {
+                {-mx, mx},
+                {0, mx},
+                {0, mx},
+                {0, -mx},
+                {-mx, -mx},
+                {mx, -mx},
+                };
+    glBegin(GL_LINES);
+        for(int j=0; j<numvtx; j++){
+            glVertex3f(v[j][0], v[j][1], 0.0);
+        }
+        
+    glEnd();
+}
+
+void draw_2(){
+    glPushMatrix();
+    glRotatef(180.f, 0, 1, 0);
+    draw_s();
+    glPopMatrix();
+}
+
+void draw_3(){
+    glPushMatrix();
+    glRotatef(-90.f, 0, 0, 1);
+    draw_m();
+    glPopMatrix();
+}
+
+void draw_4(){
+    // set up coords
+    glPushMatrix();
+    glRotatef(180, 0, 0, 1);
+    draw_h();
+    glPopMatrix();
+}
+
+void draw_5(){
+    draw_s();
+}
+
+void draw_6(){
+    draw_b();
+}
+
+void draw_7(){
+    int numvtx = 4;
+    float v[][2] = {
+                {-mx, mx},
+                {mx, mx},
+                {mx, mx},
+                {-mx, -mx},
+                
+                
+                };
+    glBegin(GL_LINES);
+        for(int j=0; j<numvtx; j++){
+            glVertex3f(v[j][0], v[j][1], 0.0);
+        }
+        
+    glEnd();
+}
+
+void draw_8(){
+    int numvtx = 10;
+    float v[][2] = {
+                {-mx, mx},
+                {mx, mx},
+                {-mx, mx},
+                {-mx, -mx},
+                {mx, mx},
+                {mx, -mx},
+                {-mx, -mx},
+                {mx, -mx},
+                {mx, 0},
+                {-mx, 0},
+                };
+    glBegin(GL_LINES);
+        for(int j=0; j<numvtx; j++){
+            glVertex3f(v[j][0], v[j][1], 0.0);
+        }
+        
+    glEnd();
+}
+
+void draw_9(){
+    // set up coords
+    glPushMatrix();
+    glRotatef(180, 0, 0, 1);
+    draw_b();
+    glPopMatrix();
 }
