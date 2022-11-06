@@ -150,12 +150,12 @@ void draw_e(){
 void draw_f(){
     int numvtx = 6;
     float v[][2] = {
-                {mx/2, mx},
-                {0, mx},
-                {mx/2, 0},
-                {-mx/2, 0},
-                {0, mx},
-                {0, -mx},
+                {mx, mx},
+                {-mx/2, mx},
+                {mx, 0},
+                {-mx, 0},
+                {-mx/2, mx},
+                {-mx/2, -mx},
                 
                 };
     glBegin(GL_LINES);
@@ -237,11 +237,11 @@ void draw_j(){
 void draw_k(){
     int numvtx = 6;
     float v[][2] = {
-                {0, mx},
-                {0, -mx},
+                {-mx, mx},
+                {-mx, -mx},
                 {mx, mx*2.f/5},
-                {0, -mx*1.f/5},
-                {0, -mx*1.f/5},
+                {-mx, -mx*1.f/5},
+                {-mx, -mx*1.f/5},
                 {mx, -mx},
                 };
     glBegin(GL_LINES);
@@ -388,11 +388,11 @@ void draw_s(){
 void draw_t(){
     int numvtx = 6;
     float v[][2] = {
-                {-mx/2, mx*3/5},
+                {-mx, mx*3/5},
                 {mx, mx*3/5},
-                {0, mx},
-                {0, -mx},
-                {0, -mx},
+                {-mx/2, mx},
+                {-mx/2, -mx},
+                {-mx/2, -mx},
                 {mx, -mx},
                 };
     glBegin(GL_LINES);
