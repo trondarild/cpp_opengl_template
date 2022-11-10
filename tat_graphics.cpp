@@ -110,16 +110,18 @@ void drawColGrid(float x1, float y1, float dim, float margin, std::string title,
   int inhcol[]= {122, 122, 217};
   
   // TODO implement text
-  // glPushMatrix();
-  // glTranslatef(0, -10, 0);
+  glPushMatrix();
+
+  glPushMatrix();
+  glTranslatef(0.02, -0.04, 0);
   glPushAttrib(GL_COLOR_BUFFER_BIT);
   fill(150);
   glPushAttrib(GL_LINE_BIT);
   glLineWidth(0.03125f);
-  text(title, 0.02, -0.04);
+  text(title, 0,0);
   glPopAttrib();
   glPopAttrib();
-  // popMatrix();
+  glPopMatrix();
   
   //glPushStyle();
   //colorMode(HSB);
@@ -140,6 +142,7 @@ void drawColGrid(float x1, float y1, float dim, float margin, std::string title,
     y+= dim+margin;
   }
   glPopMatrix();
+  glPopMatrix(); //text
 
 }
 
