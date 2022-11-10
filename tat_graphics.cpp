@@ -1,5 +1,6 @@
 #include "tat_graphics.h"
 #include "tat_utils.h"
+#include "alphabet.h"
 #include <iostream>
 
 
@@ -101,8 +102,9 @@ void drawColGrid(float x1, float y1, float dim, float margin, std::string title,
   top - array of values: pos and neg values drawn differently
 
   Example:
-  float top[][] = {{0.1, 0.2}};
-  drawColGrid(0, 0, 0.05, 0.025, "", top, 2, 1);
+  float** top = zeros(2,2);
+  drawColGrid(0, 0, 0.05, 0.025, "test", top, 2, 2);
+  destroy_matrix(top);
   */
   int exccol[] = {217, 122, 122};
   int inhcol[]= {122, 122, 217};
@@ -110,7 +112,13 @@ void drawColGrid(float x1, float y1, float dim, float margin, std::string title,
   // TODO implement text
   // glPushMatrix();
   // glTranslatef(0, -10, 0);
-  // text(title, 0, 0);
+  glPushAttrib(GL_COLOR_BUFFER_BIT);
+  fill(150);
+  glPushAttrib(GL_LINE_BIT);
+  glLineWidth(0.03125f);
+  text(title, 0.02, -0.04);
+  glPopAttrib();
+  glPopAttrib();
   // popMatrix();
   
   //glPushStyle();
@@ -249,4 +257,18 @@ void barchart_array(float *data,
   //popStyle();
 }
 
- 
+void text(std::string s, float x, float y, float sx, float sy){
+  glPushMatrix();
+  glTranslatef(x, y, 0);
+  glScalef(sx, sy, 0);
+  draw_string(s);
+  glPopMatrix(); 
+}
+
+void text(std::string s, float x, float y){
+  glPushMatrix();
+  glTranslatef(x, y, 0);
+  glScalef(0.021, 0.025, 0);
+  draw_string(s);
+  glPopMatrix(); 
+}

@@ -11,3 +11,5 @@ void fill_hsv(float h, float s, float v);
 void fill(int grey);
 void drawColGrid(float x1, float y1, float dim, float margin, std::string title, float** top, int sizex, int sizey);
 void barchart_array(float *data, int sz, float yf1,  float xf1,  float yscale,  float xscale,  float *clr,  float aymax);
+void text(std::string s, float x, float y, float sx, float sy);
+void text(std::string s, float x, float y);
