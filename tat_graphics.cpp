@@ -93,7 +93,7 @@ void fill(int grey)
     glColor3ub(grey, grey, grey);
 }
 
-void drawColGrid(float x1, float y1, float dim, float margin, std::string title, float** top, int sizex, int sizey){
+void draw_col_grid(float x1, float y1, float dim, float margin, std::string title, float** top, int sizex, int sizey){
   /**
   x1 - topleft corner x
   y1 - topleft corner y
@@ -146,20 +146,40 @@ void drawColGrid(float x1, float y1, float dim, float margin, std::string title,
 
 }
 
-void barchart_array(float *data,
-  int sz,
-  float yf1, 
+void barchart_array(
   float xf1, 
-  float yscale, 
+  float yf1, 
   float xscale, 
+  float yscale, 
   float *clr, 
-  float aymax)
-  //String legend)
-  // PFont h1,
-  // PFont l1) 
-  {
-    //pushStyle();
-  //Declare a float variabe for the max y axis value.
+  float aymax,
+  std::string legend,
+  float *data,
+  int sz
+  ){
+  /**
+   * @brief Draw a barchart array
+   * xf1 - xpos
+   * yf1 - ypos
+   * xscale - 
+   * yscale - 
+   * clr - array of 3 with color
+   * aymax - max value for y axis
+   * data - array of data
+   * sz - lenght of array
+   * 
+   * Example:
+   * float* data = zeros(3);
+   * data[0] = 0.1; data[1] = 0.2; data[3] = 0.5;
+   * float* clr = zeros(3);
+   * barchart_array(0, 0, 1, 1, clr, 1.f, "test", data, 3);
+   * destroy_array(data);
+   * destroy_array(clr);
+   * 
+   */
+
+   glPushAttrib(GL_COLOR_BUFFER_BIT); 
+   //Declare a float variabe for the max y axis value.
    float ymax=aymax;
    
    //Declare a float variable for the minimum y axis value.
@@ -196,12 +216,18 @@ void barchart_array(float *data,
        float xcount = sz;
        
        //Draw the minimum and maximum Y Axis labels. 
+       glPushAttrib(GL_COLOR_BUFFER_BIT);
+       fill(150);
+       glPushAttrib(GL_LINE_BIT);
+       glLineWidth(0.03125f);
        // textFont(h1);
        //fill (100);
        //textAlign(RIGHT, CENTER);
        //text(int(ymax), xf1-8, yf1-yscale);
        //text(int(ymin), xf1-8, yf1);
-       //text(legend, xf1+87, yf1+18);
+       text(legend, xf1+0.087, yf1-0.058);
+       glPopAttrib();
+       glPopAttrib();
        
        //Draw each column in the data series.
        for (int i2 = 0; i2 < xcount; i2++) {
@@ -258,6 +284,7 @@ void barchart_array(float *data,
     }
   }
   //popStyle();
+  glPopAttrib();
 }
 
 void text(std::string s, float x, float y, float sx, float sy){
