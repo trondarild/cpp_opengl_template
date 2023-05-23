@@ -1,7 +1,7 @@
 #include "tat_graphics.h"
 #include "tat_utils.h"
+#include "alphabet.h"
 #include <iostream>
-
 
 #include <cmath> 
 #ifdef __APPLE__
@@ -249,4 +249,11 @@ void barchart_array(float *data,
   //popStyle();
 }
 
- 
+void text(float x, float y, std::string atext){
+  glPushMatrix();
+  glLineWidth(0.95f);
+  glTranslatef(x, y, 0);
+  glScalef(0.021, 0.0251, 1.f);
+  draw_string(atext);
+  glPopMatrix();
+}
