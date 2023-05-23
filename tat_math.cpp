@@ -190,6 +190,22 @@ multiply(float *retval, float *a, float *b, int size)
     
 }
 
+float *scale(float *retval, float *a, float b, int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        retval[i] = a[i] * b;
+    }
+    return retval;
+}
+
+float **scale(float **retval, float **a, float b, int sizex, int sizey)
+{
+    scale(retval[0], a[0], b, sizex*sizey);
+    return retval;
+}
+
+
 float**
 multiply(float **retval, float **a, float **b, int sizex, int sizey)
 {
