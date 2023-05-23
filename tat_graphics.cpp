@@ -92,7 +92,7 @@ void fill(int grey)
     glColor3ub(grey, grey, grey);
 }
 
-void drawColGrid(float x1, float y1, float dim, float margin, std::string title, float** top, int sizex, int sizey){
+void draw_col_grid(float x1, float y1, float dim, float margin, std::string title, float** top, int sizex, int sizey){
   /**
   x1 - topleft corner x
   y1 - topleft corner y
@@ -101,17 +101,26 @@ void drawColGrid(float x1, float y1, float dim, float margin, std::string title,
   top - array of values: pos and neg values drawn differently
 
   Example:
-  float top[][] = {{0.1, 0.2}};
-  drawColGrid(0, 0, 0.05, 0.025, "", top, 2, 1);
+  float** top = zeros(2,2);
+  drawColGrid(0, 0, 0.05, 0.025, "test", top, 2, 2);
+  destroy_matrix(top);
   */
   int exccol[] = {217, 122, 122};
   int inhcol[]= {122, 122, 217};
   
   // TODO implement text
-  // glPushMatrix();
-  // glTranslatef(0, -10, 0);
-  // text(title, 0, 0);
-  // popMatrix();
+  glPushMatrix();
+
+  glPushMatrix();
+  glTranslatef(0.02, -0.04, 0);
+  glPushAttrib(GL_COLOR_BUFFER_BIT);
+  fill(150);
+  glPushAttrib(GL_LINE_BIT);
+  glLineWidth(0.03125f);
+  text(title, 0,0);
+  glPopAttrib();
+  glPopAttrib();
+  glPopMatrix();
   
   //glPushStyle();
   //colorMode(HSB);
@@ -132,23 +141,44 @@ void drawColGrid(float x1, float y1, float dim, float margin, std::string title,
     y+= dim+margin;
   }
   glPopMatrix();
+  glPopMatrix(); //text
 
 }
 
-void barchart_array(float *data,
-  int sz,
-  float yf1, 
+void barchart_array(
   float xf1, 
-  float yscale, 
+  float yf1, 
   float xscale, 
+  float yscale, 
   float *clr, 
-  float aymax)
-  //String legend)
-  // PFont h1,
-  // PFont l1) 
-  {
-    //pushStyle();
-  //Declare a float variabe for the max y axis value.
+  float aymax,
+  std::string legend,
+  float *data,
+  int sz
+  ){
+  /**
+   * @brief Draw a barchart array
+   * xf1 - xpos
+   * yf1 - ypos
+   * xscale - 
+   * yscale - 
+   * clr - array of 3 with color
+   * aymax - max value for y axis
+   * data - array of data
+   * sz - lenght of array
+   * 
+   * Example:
+   * float* data = zeros(3);
+   * data[0] = 0.1; data[1] = 0.2; data[3] = 0.5;
+   * float* clr = zeros(3);
+   * barchart_array(0, 0, 1, 1, clr, 1.f, "test", data, 3);
+   * destroy_array(data);
+   * destroy_array(clr);
+   * 
+   */
+
+   glPushAttrib(GL_COLOR_BUFFER_BIT); 
+   //Declare a float variabe for the max y axis value.
    float ymax=aymax;
    
    //Declare a float variable for the minimum y axis value.
@@ -185,12 +215,18 @@ void barchart_array(float *data,
        float xcount = sz;
        
        //Draw the minimum and maximum Y Axis labels. 
+       glPushAttrib(GL_COLOR_BUFFER_BIT);
+       fill(150);
+       glPushAttrib(GL_LINE_BIT);
+       glLineWidth(0.03125f);
        // textFont(h1);
        //fill (100);
        //textAlign(RIGHT, CENTER);
        //text(int(ymax), xf1-8, yf1-yscale);
        //text(int(ymin), xf1-8, yf1);
-       //text(legend, xf1+87, yf1+18);
+       text(legend, xf1+0.087, yf1-0.058);
+       glPopAttrib();
+       glPopAttrib();
        
        //Draw each column in the data series.
        for (int i2 = 0; i2 < xcount; i2++) {
@@ -247,13 +283,21 @@ void barchart_array(float *data,
     }
   }
   //popStyle();
+  glPopAttrib();
 }
 
-void text(float x, float y, std::string atext){
+void text(std::string s, float x, float y, float sx, float sy){
   glPushMatrix();
-  glLineWidth(0.95f);
   glTranslatef(x, y, 0);
-  glScalef(0.021, 0.0251, 1.f);
-  draw_string(atext);
-  glPopMatrix();
+  glScalef(sx, sy, 0);
+  draw_string(s);
+  glPopMatrix(); 
+}
+
+void text(std::string s, float x, float y){
+  glPushMatrix();
+  glTranslatef(x, y, 0);
+  glScalef(0.021, 0.025, 0);
+  draw_string(s);
+  glPopMatrix(); 
 }

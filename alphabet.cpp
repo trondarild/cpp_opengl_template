@@ -632,8 +632,5 @@ void draw_9(){
 }
 
 void draw_period(){
-    glPushAttrib(GL_COLOR_BUFFER_BIT);
-    glColor3ub(255,255,255);
     glRectf(-mx/4, -mx*3/4, mx/4, -mx);
-    glPopAttrib();
 }
